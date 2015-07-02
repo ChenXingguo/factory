@@ -1,0 +1,91 @@
+<?php
+
+namespace common\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "company".
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $licenses
+ * @property string $industry
+ * @property string $num_employees
+ * @property string $address1
+ * @property string $address2
+ * @property string $city
+ * @property string $province
+ * @property string $postal_code
+ * @property string $phone
+ * @property string $fax
+ * @property string $created_at
+ * @property string $updated_at
+ *
+ * @property Contact[] $contacts
+ * @property Product[] $products
+ */
+class Company extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'company';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['id', 'name', 'address1', 'city', 'province'], 'required'],
+            [['id'], 'integer'],
+            [['created_at', 'updated_at'], 'safe'],
+            [['name', 'industry', 'num_employees', 'address1', 'address2', 'phone', 'fax'], 'string', 'max' => 45],
+            [['licenses'], 'string', 'max' => 255],
+            [['city', 'province', 'postal_code'], 'string', 'max' => 20]
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app', 'ID'),
+            'name' => Yii::t('app', 'Name'),
+            'licenses' => Yii::t('app', 'Licenses'),
+            'industry' => Yii::t('app', 'Industry'),
+            'num_employees' => Yii::t('app', 'Num Employees'),
+            'address1' => Yii::t('app', 'Address1'),
+            'address2' => Yii::t('app', 'Address2'),
+            'city' => Yii::t('app', 'City'),
+            'province' => Yii::t('app', 'Province'),
+            'postal_code' => Yii::t('app', 'Postal Code'),
+            'phone' => Yii::t('app', 'Phone'),
+            'fax' => Yii::t('app', 'Fax'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+        ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getContacts()
+    {
+        return $this->hasMany(Contact::className(), ['company_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProducts()
+    {
+        return $this->hasMany(Product::className(), ['company_id' => 'id']);
+    }
+}
