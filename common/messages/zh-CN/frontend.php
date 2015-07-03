@@ -17,7 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Logout ({0})' => '退出 ({0})',
+    'Please fill out the following fields to login' => '请填写下面的信息登录',
     'About' => '简介',
     'Benefit' => '产品优势',
     'Company Sign Up' => '注册公司',
@@ -25,6 +25,7 @@ return [
     'Home' => '首页',
     'How it works' => '用户指南',
     'Login' => '登录',
+    'Logout ({0})' => '退出 ({0})',
     'Maykke Documentation &raquo;' => 'Maykke 文档',
     'Maykke Forum &raquo;' => 'Maykke 论坛',
     'Signup' => '免费注册',
