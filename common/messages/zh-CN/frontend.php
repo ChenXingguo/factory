@@ -17,11 +17,17 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Logout ({0})' => '退出 ({0})',
+    'About' => '简介',
     'Benefit' => '产品优势',
-    'How it works' => '用户指南',
     'Company Sign Up' => '注册公司',
+    'Contact' => '联系我们',
+    'Home' => '首页',
+    'How it works' => '用户指南',
+    'Login' => '登录',
     'Maykke Documentation &raquo;' => 'Maykke 文档',
     'Maykke Forum &raquo;' => 'Maykke 论坛',
+    'Signup' => '免费注册',
     'Success Story' => '成功故事',
     'User Sign Up' => '注册用户',
     'Welcome to Maykke!' => 'Maykke 欢迎你！',
