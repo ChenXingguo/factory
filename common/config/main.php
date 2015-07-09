@@ -2,8 +2,8 @@
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
            // set target language to be Russian
-    'language' => 'zh-CN',
-    //'language' => 'en-US',
+ //   'language' => 'zh-CN',
+    'language' => 'en-US',
     //Yii::$app->language = 'zh-CN',
     
     // set source language to be English

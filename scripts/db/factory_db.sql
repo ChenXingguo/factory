@@ -107,7 +107,7 @@ DEFAULT CHARACTER SET = utf8;
 -- Table `factory`.`company`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `factory`.`company` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `id` INT(11) NOT NULL DEFAULT '0',
   `name` VARCHAR(45) NOT NULL,
   `licenses` VARCHAR(255) NULL DEFAULT NULL,
   `industry` VARCHAR(45) NULL DEFAULT NULL,
@@ -123,7 +123,17 @@ CREATE TABLE IF NOT EXISTS `factory`.`company` (
   `updated_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
-AUTO_INCREMENT = 10001
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `factory`.`roles`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `factory`.`roles` (
+  `code` VARCHAR(5) NOT NULL,
+  `name` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`code`))
+ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -151,10 +161,9 @@ COLLATE = utf8_unicode_ci;
 -- Table `factory`.`contact`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `factory`.`contact` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `user_id` INT(11) NULL DEFAULT NULL,
-  `company_id` INT(11) NULL DEFAULT NULL,
-  `role_code` VARCHAR(45) NULL DEFAULT NULL,
+  `company_id` INT(11) NOT NULL,
+  `user_id` INT(11) NOT NULL,
+  `roles_code` VARCHAR(5) NOT NULL,
   `first_name` VARCHAR(45) NULL DEFAULT NULL,
   `last_name` VARCHAR(45) NULL DEFAULT NULL,
   `work_phone` VARCHAR(45) NULL DEFAULT NULL,
@@ -167,12 +176,18 @@ CREATE TABLE IF NOT EXISTS `factory`.`contact` (
   `note` VARCHAR(255) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `udpated_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
   INDEX `user_id_idx` (`user_id` ASC),
   INDEX `company_id_idx` (`company_id` ASC),
+  INDEX `fk_contact_roles1_idx` (`roles_code` ASC),
+  PRIMARY KEY (`company_id`, `user_id`),
   CONSTRAINT `company_id`
     FOREIGN KEY (`company_id`)
     REFERENCES `factory`.`company` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_contact_roles1`
+    FOREIGN KEY (`roles_code`)
+    REFERENCES `factory`.`roles` (`code`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `user_id`
@@ -181,7 +196,6 @@ CREATE TABLE IF NOT EXISTS `factory`.`contact` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 100000
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -247,7 +261,6 @@ CREATE TABLE IF NOT EXISTS `factory`.`product` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 100000
 DEFAULT CHARACTER SET = utf8;
 
 
@@ -334,7 +347,12 @@ CREATE TABLE IF NOT EXISTS `factory`.`product_images` (
   `title` VARCHAR(45) NULL DEFAULT NULL,
   `alt_text` VARCHAR(45) NULL DEFAULT NULL,
   `updated_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`product_id`))
+  PRIMARY KEY (`product_id`),
+  CONSTRAINT `fk_product_id`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `factory`.`product` (`product_id`)
+    ON DELETE NO ACTION
+    ON UPDATE CASCADE)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
@@ -382,12 +400,21 @@ DEFAULT CHARACTER SET = utf8;
 
 
 -- -----------------------------------------------------
--- Table `factory`.`roles`
+-- Table `factory`.`user_stat`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `factory`.`roles` (
-  `code` VARCHAR(5) NOT NULL,
-  `name` VARCHAR(45) NULL DEFAULT NULL,
-  PRIMARY KEY (`code`))
+CREATE TABLE IF NOT EXISTS `factory`.`user_stat` (
+  `last_login` DATETIME NOT NULL,
+  `tmes_login` SMALLINT(4) NULL DEFAULT NULL,
+  `email_verified` TINYINT(1) NULL DEFAULT NULL,
+  `depth` SMALLINT(4) NULL DEFAULT NULL,
+  `user_id` INT(11) NOT NULL,
+  PRIMARY KEY (`last_login`, `user_id`),
+  INDEX `fk_user_stat_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_user_stat_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `factory`.`user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
 
