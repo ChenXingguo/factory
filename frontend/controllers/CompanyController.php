@@ -4,6 +4,8 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Company;
+use common\models\Contact;
+use common\models\Roles;
 use common\models\CompanySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -62,7 +64,20 @@ class CompanyController extends Controller
     {
         $model = new Company();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) {
+            
+            $model->save(); 
+            $company_id = $model->id;
+            $user_id = Yii::$app->user->id;
+            
+            $contact = new Contact();
+            $contact->company_id = $company_id;
+            $contact->user_id = $user_id;
+            $contact->roles_code = Roles::ROLE_EMP;
+            if (!$contact->save()) {
+                throw new NotFoundHttpException('Save contact error');
+            }
+            
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
