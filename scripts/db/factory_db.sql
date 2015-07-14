@@ -20,6 +20,8 @@ USE `factory` ;
 -- -----------------------------------------------------
 -- Table `factory`.`attribute_section`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`attribute_section` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`attribute_section` (
   `section_id` SMALLINT(3) NOT NULL,
   `section_name` VARCHAR(45) NULL DEFAULT NULL,
@@ -32,6 +34,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`attributes`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`attributes` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`attributes` (
   `attribute_id` INT(11) NOT NULL,
   `lang` CHAR(2) NOT NULL,
@@ -48,6 +52,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`category`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`category` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`category` (
   `category_id` INT(11) NOT NULL,
   `lang` CHAR(2) NOT NULL,
@@ -65,6 +71,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`category_attributes`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`category_attributes` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`category_attributes` (
   `category_id` INT(11) NOT NULL,
   `attribute_id` INT(11) NOT NULL,
@@ -87,6 +95,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`category_attributes_flat`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`category_attributes_flat` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`category_attributes_flat` (
   `category_id` INT(11) NOT NULL,
   `attributes` VARCHAR(255) NULL DEFAULT NULL,
@@ -106,10 +116,14 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`company`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`company` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`company` (
-  `id` INT(11) NOT NULL DEFAULT '0',
+  `id` INT(11) NOT NULL auto_increment,
   `name` VARCHAR(45) NOT NULL,
+  `company_type` CHAR(2) NULL,
   `licenses` VARCHAR(255) NULL DEFAULT NULL,
+  `license_file_uri` VARCHAR(255) NULL,
   `industry` VARCHAR(45) NULL DEFAULT NULL,
   `num_employees` VARCHAR(45) NULL DEFAULT NULL,
   `address1` VARCHAR(45) NOT NULL,
@@ -121,6 +135,13 @@ CREATE TABLE IF NOT EXISTS `factory`.`company` (
   `fax` VARCHAR(45) NULL DEFAULT NULL,
   `created_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` DATETIME NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `factory_address` VARCHAR(255) NULL,
+  `year_founded` VARCHAR(45) NULL,
+  `registered_funding` VARCHAR(45) NULL,
+  `product_category` VARCHAR(45) NULL,
+  `revenue_year` VARCHAR(45) NULL,
+  `product_certificates` VARCHAR(45) NULL,
+  `product_advantage` VARCHAR(255) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
@@ -129,6 +150,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`roles`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`roles` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`roles` (
   `code` VARCHAR(5) NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT NULL,
@@ -140,6 +163,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`user`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`user` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`user` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `username` VARCHAR(255) CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci' NOT NULL,
@@ -160,8 +185,10 @@ COLLATE = utf8_unicode_ci;
 -- -----------------------------------------------------
 -- Table `factory`.`contact`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`contact` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`contact` (
-  `company_id` INT(11) NOT NULL,
+  `company_id` INT(11) NOT NULL ,
   `user_id` INT(11) NOT NULL,
   `roles_code` VARCHAR(5) NOT NULL,
   `first_name` VARCHAR(45) NULL DEFAULT NULL,
@@ -202,6 +229,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`country`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`country` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`country` (
   `code` CHAR(2) NOT NULL,
   `name` CHAR(52) NOT NULL,
@@ -214,6 +243,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`industries`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`industries` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`industries` (
   `code` VARCHAR(2) NOT NULL,
   `name` VARCHAR(45) NULL DEFAULT NULL,
@@ -226,6 +257,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`migration`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`migration` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`migration` (
   `version` VARCHAR(180) NOT NULL,
   `apply_time` INT(11) NULL DEFAULT NULL,
@@ -237,10 +270,12 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`product`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`product` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`product` (
   `product_id` INT(11) NOT NULL AUTO_INCREMENT,
   `lang` CHAR(2) NOT NULL,
-  `company_id` INT(11) NULL DEFAULT NULL,
+  `company_id` INT(11) NOT NULL ,
   `product_name` VARCHAR(45) NULL DEFAULT NULL,
   `upc_code` VARCHAR(45) NULL DEFAULT NULL,
   `sku` VARCHAR(45) NULL DEFAULT NULL,
@@ -267,6 +302,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`product_attribute_nv`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`product_attribute_nv` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`product_attribute_nv` (
   `product_id` INT(11) NOT NULL,
   `lang` CHAR(2) NOT NULL,
@@ -288,6 +325,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`product_attributes`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`product_attributes` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`product_attributes` (
   `product_id` INT(11) NOT NULL,
   `attribute_id` INT(11) NULL DEFAULT NULL,
@@ -327,6 +366,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`product_category`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`product_category` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`product_category` (
   `code` VARCHAR(32) NOT NULL,
   `category_name` VARCHAR(45) NULL DEFAULT NULL,
@@ -340,6 +381,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`product_images`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`product_images` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`product_images` (
   `product_id` INT(11) NOT NULL,
   `seq_no` SMALLINT(3) NULL DEFAULT NULL,
@@ -360,6 +403,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`product_pricing`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`product_pricing` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`product_pricing` (
   `product_id` INT(11) NOT NULL,
   `production_cost` DECIMAL(9,2) NULL DEFAULT NULL,
@@ -402,6 +447,8 @@ DEFAULT CHARACTER SET = utf8;
 -- -----------------------------------------------------
 -- Table `factory`.`user_stat`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`user_stat` ;
+
 CREATE TABLE IF NOT EXISTS `factory`.`user_stat` (
   `last_login` DATETIME NOT NULL,
   `tmes_login` SMALLINT(4) NULL DEFAULT NULL,
@@ -417,6 +464,26 @@ CREATE TABLE IF NOT EXISTS `factory`.`user_stat` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `factory`.`company_main_products`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `factory`.`company_main_products` ;
+
+CREATE TABLE IF NOT EXISTS `factory`.`company_main_products` (
+  `company_id` INT(11) NOT NULL,
+  `seq_no` SMALLINT(2) NOT NULL,
+  `product_name` VARCHAR(45) NULL,
+  `export_regions` VARCHAR(45) NULL,
+  `updated_at` DATETIME NULL,
+  PRIMARY KEY (`company_id`, `seq_no`),
+  CONSTRAINT `fk_main_product_company_id`
+    FOREIGN KEY (`company_id`)
+    REFERENCES `factory`.`company` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
