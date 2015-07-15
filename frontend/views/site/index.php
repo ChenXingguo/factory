@@ -16,9 +16,9 @@ $this->title = 'Maykke Home Page';
         <p class="lead"><?php echo Yii::t('frontend', 'You are a few steps away from selling your product to USA.') ?></p>
 
         <?php if (Yii::$app->user->isGuest) { ?>
-            <p><a class="btn btn-lg btn-success" href="/index.php?r=site/signup"><?php echo Yii::t('frontend', 'User Sign Up') ?></a></p>
+            <p><a class="btn btn-lg btn-success" href="index.php?r=site/signup"><?php echo Yii::t('frontend', 'User Sign Up') ?></a></p>
         <?php } else { ?>    
-            <p><a class="btn btn-lg btn-success" href="/index.php?r=company/create"><?php echo Yii::t('frontend', 'Company Sign Up') ?></a></p>
+            <p><a class="btn btn-lg btn-success" href="index.php?r=company/create"><?php echo Yii::t('frontend', 'Company Sign Up') ?></a></p>
         <?php } ?>
     </div>
 
