@@ -17,22 +17,21 @@ use yii\filters\AccessControl;
 /**
  * CompanyController implements the CRUD actions for Company model.
  */
-class CompanyController extends Controller
-{
+class CompanyController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['index', 'view', 'create', 'update', 'delete'],
                 'rules' => [
                     [
-                    'actions' => ['index', 'view', 'create', 'update', 'delete'],
-                    'allow' => true,
-                    'roles' => ['@'],
+                        'actions' => ['index', 'view', 'create', 'update', 'delete'],
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
                 ],
             ],
@@ -48,8 +47,7 @@ class CompanyController extends Controller
     /**
      * @inheritdoc
      */
-    public function actions()
-    {
+    public function actions() {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
@@ -61,14 +59,29 @@ class CompanyController extends Controller
      * Lists all Company models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndexAll() {
         $searchModel = new CompanySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
+     * Lists all Company models by a user.
+     * modify actionIndex to limit a contact's view so it's safer?
+     * @return mixed
+     */
+    public function actionIndex() {
+        $searchModel = new CompanySearch();
+        $dataProvider = $searchModel->searchCompanyByContact(Yii::$app->user->id);
+
+        return $this->render('index', [
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -77,10 +90,9 @@ class CompanyController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {
+    public function actionView($id) {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+                    'model' => $this->findModel($id),
         ]);
     }
 
@@ -89,16 +101,15 @@ class CompanyController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new Company();
 
-        if ($model->load(Yii::$app->request->post()) ) {
-            
-            $model->save(); 
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->save();
             $company_id = $model->id;
             $user_id = Yii::$app->user->id;
-            
+
             $contact = new Contact();
             $contact->company_id = $company_id;
             $contact->user_id = $user_id;
@@ -106,11 +117,11 @@ class CompanyController extends Controller
             if (!$contact->save()) {
                 throw new NotFoundHttpException('Save contact error');
             }
-            
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -121,15 +132,14 @@ class CompanyController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
-                'model' => $model,
+                        'model' => $model,
             ]);
         }
     }
@@ -140,8 +150,7 @@ class CompanyController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
+    public function actionDelete($id) {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
@@ -154,12 +163,12 @@ class CompanyController extends Controller
      * @return Company the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = Company::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
 }
