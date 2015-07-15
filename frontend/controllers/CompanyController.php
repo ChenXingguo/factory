@@ -103,27 +103,49 @@ class CompanyController extends Controller {
      */
     public function actionCreate() {
         $model = new Company();
+        Yii::$app->session->open();
+        $session = Yii::$app->session;
+        $sessionsave = $model->formName() . 'save';
 
         if ($model->load(Yii::$app->request->post())) {
+            if (isset($_POST['submit']) && $model->validate()) {
+                 
+                $model->save();
+                $company_id = $model->id;
+                $user_id = Yii::$app->user->id;
 
-            $model->save();
-            $company_id = $model->id;
-            $user_id = Yii::$app->user->id;
+                $contact = new Contact();
+                $contact->company_id = $company_id;
+                $contact->user_id = $user_id;
+                $contact->roles_code = Roles::ROLE_EMP;
+                if (!$contact->save()) {
+                    throw new NotFoundHttpException('Save contact error');
+                }
+                if (isset($session[$sessionsave])) {
+                    unset($session[$sessionsave]);
+                }
 
-            $contact = new Contact();
-            $contact->company_id = $company_id;
-            $contact->user_id = $user_id;
-            $contact->roles_code = Roles::ROLE_EMP;
-            if (!$contact->save()) {
-                throw new NotFoundHttpException('Save contact error');
+                return $this->redirect(['view', 'id' => $model->id]);
+            } else if (isset($_POST['save'])) {
+
+                $session[$sessionsave] = $_POST;
+                echo "<h1>Saved Form</h1>"; //change to div later
+
+                return $this->render('create', [
+                    'model' => $model,
+                ]);
             }
-
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        } else if (isset($session[$sessionsave])) {
+            $model->load($session[$sessionsave]);
+            echo "<h1>Loaded saved form </h1>"; //change to div later
             return $this->render('create', [
-                        'model' => $model,
+                'model' => $model,
             ]);
         }
+            return $this->render('create', [
+                        'model' => $model,
+        ]);
+
     }
 
     /**
