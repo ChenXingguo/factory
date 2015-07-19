@@ -13,10 +13,13 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="product-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php // echo $this->render('_search', ['model' => $searchModel]); 
+         $models = $dataProvider->getModels();
+         
+         $company_id = $models[0]->company_id;
+    ?>
     <p>
-        <?= Html::a(Yii::t('frontend', 'Create Product'), ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a(Yii::t('frontend', 'Create Product'), ['create','company_id' => $company_id], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

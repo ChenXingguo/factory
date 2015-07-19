@@ -78,4 +78,22 @@ class ProductSearch extends Product
 
         return $dataProvider;
     }
+
+    /**
+     * Creates data provider instance with search query applied
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchByCompanyId($companyId)
+    {
+        $query = Product::findAll(['company_id' => $companyId]);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        return $dataProvider;
+    }
 }
