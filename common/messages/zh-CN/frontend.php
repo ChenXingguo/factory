@@ -17,7 +17,17 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Please fill out the following fields to login' => '请填写下面的信息登录',
+    'Are you sure you want to delete this item?' => '确认删除',
+    'Contacts' => '联络人',
+    'Create' => '新添',
+    'Create Contact' => '新添联络人',
+    'Create Product' => '新添产品',
+    'Delete' => '删除',
+    'Products' => '产品',
+    'Reset' => '重置',
+    'Search' => '搜索',
+    'Update' => '更新',
+    'Update {modelClass}: ' => '更新 {modelClass}: ',
     'About' => '简介',
     'Benefit' => '产品优势',
     'Company Sign Up' => '注册公司',
@@ -28,6 +38,7 @@ return [
     'Logout ({0})' => '退出 ({0})',
     'Maykke Documentation &raquo;' => 'Maykke 文档',
     'Maykke Forum &raquo;' => 'Maykke 论坛',
+    'Please fill out the following fields to login' => '请填写下面的信息登录',
     'Signup' => '免费注册',
     'Success Story' => '成功故事',
     'User Sign Up' => '注册用户',

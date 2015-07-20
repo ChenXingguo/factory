@@ -17,5 +17,14 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Are you sure you want to delete this item?' => '',
+    'Create' => '',
+    'Create Industries' => '',
+    'Delete' => '',
+    'Industries' => '',
+    'Reset' => '',
+    'Search' => '',
+    'Update' => '',
+    'Update {modelClass}: ' => '',
     'Congratulations!' => '恭喜！',
 ];
